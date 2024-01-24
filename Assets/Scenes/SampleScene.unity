@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 141115627}
   - component: {fileID: 141115628}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FloorCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 907413034}
   - component: {fileID: 907413032}
   - component: {fileID: 907413033}
+  - component: {fileID: 907413035}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -438,6 +439,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TestMode: 0
   speed: 0
+  jumpForce: 7
+  isGrounded: 0
+  GroundCheck: {fileID: 0}
+  isGroundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  groundCheckRadius: 0.02
 --- !u!50 &907413034
 Rigidbody2D:
   serializedVersion: 4
@@ -464,7 +472,28 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!95 &907413035
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907413028}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1914c8c0462ebc745be577e1afe5aae0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1157158425
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,7 +505,7 @@ GameObject:
   - component: {fileID: 1157158426}
   - component: {fileID: 1157158428}
   - component: {fileID: 1157158427}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: EdgeCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
