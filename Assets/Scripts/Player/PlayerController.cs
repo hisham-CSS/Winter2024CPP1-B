@@ -65,14 +65,37 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         float xInput = Input.GetAxisRaw("Horizontal");
-
         isGrounded = Physics2D.OverlapCircle(GroundCheck.position, groundCheckRadius, isGroundLayer);
 
-        rb.velocity = new Vector2(xInput * speed, rb.velocity.y);
+        if (isGrounded)
+        {
+            rb.gravityScale = 1;
+            anim.ResetTrigger("JumpAtk");
+        }
+
+        AnimatorClipInfo[] clipInfo = anim.GetCurrentAnimatorClipInfo(0);
+
+        if (clipInfo[0].clip.name == "Fire")
+        {
+            rb.velocity = Vector2.zero;
+        }
+        else
+        {
+            rb.velocity = new Vector2(xInput * speed, rb.velocity.y);
+            if (Input.GetButtonDown("Fire1"))
+            {
+                anim.SetTrigger("Fire");
+            }
+        }
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+
+        if (Input.GetButtonDown("Jump") && !isGrounded)
+        {
+            anim.SetTrigger("JumpAtk");
         }
 
         anim.SetFloat("Input", Mathf.Abs(xInput));
@@ -81,6 +104,49 @@ public class PlayerController : MonoBehaviour
         //Sprite Flipping
         if (xInput != 0) sr.flipX = (xInput < 0);
 
+    }
 
+    public void IncreaseGravity()
+    {
+        rb.gravityScale = 5;
+    }
+
+    //Trigger functions are called most times - but still generally require one physics body
+    //called on the frame you enter the trigger
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
+
+    //called on the frame you exit the trigger
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        
+    }
+
+    //called on frame 2 onwards as you stay in the trigger
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        
+    }
+
+    //Collision functions are only called when one of the two objects that collide is a dynamic rigidbody
+
+    //called on the frame that you enter the collision
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject);
+    }
+
+    //called on the frame that you exit the collsion
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        
+    }
+
+    //called on frame 2 onwards while you stay in the collision
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        
     }
 }
