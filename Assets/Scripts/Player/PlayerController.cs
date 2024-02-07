@@ -23,6 +23,73 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask isGroundLayer;
     [SerializeField] float groundCheckRadius = 0.02f;
 
+    
+    //Lives and Score
+    [SerializeField] int maxLives = 5;
+    private int _lives;
+    public int lives
+    {
+        get => _lives;
+        set
+        {
+            //if (lives > value)
+            //Respawn????
+
+            _lives = value;
+
+            //if (lives > maxLives)
+            //we've increased past our max lives so we should just be set to our max lives
+            //lives = maxLives;
+
+            //if (lives < 0)
+            //GameOver!!!
+
+            if (TestMode) Debug.Log("Lives has been set to: " + _lives.ToString());
+        }
+    }
+
+    private int _score = 0;
+    public int score
+    {
+        get => _score;
+        set
+        {
+            //if (score < value)
+            //invalid setting so throw error = possibly return out of function before setting varible
+
+            _score = value;
+
+            if (TestMode) Debug.Log("Score has been set to: " + _score.ToString());
+        }
+    }
+
+
+    //Coroutine
+    Coroutine jumpForceChange = null;
+
+    public void StartJumpForceChange()
+    {
+        if (jumpForceChange == null)
+        {
+            jumpForceChange = StartCoroutine(JumpForceChange());
+            return;
+        }
+
+        StopCoroutine(jumpForceChange);
+        jumpForceChange = null;
+        jumpForce /= 2;
+        StartJumpForceChange();
+    }
+
+    IEnumerator JumpForceChange()
+    {
+        jumpForce *= 2;
+        yield return new WaitForSeconds(5.0f);
+        jumpForce /= 2;
+        jumpForceChange = null;
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
