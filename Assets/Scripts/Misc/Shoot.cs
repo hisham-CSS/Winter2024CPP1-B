@@ -28,7 +28,7 @@ public class Shoot : MonoBehaviour
         else
         {
             Projectile currentProjectile = Instantiate(projectilePrefab, spawnPointLeft.position, spawnPointLeft.rotation);
-            currentProjectile.initialVelocity = initialVelocity;
+            currentProjectile.initialVelocity = new Vector2(-initialVelocity.x, initialVelocity.y);
         }
     }
 }

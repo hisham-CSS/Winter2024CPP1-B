@@ -182,7 +182,15 @@ public class PlayerController : MonoBehaviour
     //called on the frame you enter the trigger
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.CompareTag("Squish"))
+        {
+            collision.transform.parent.gameObject.GetComponent<Enemy>().TakeDamage(9999);
+            Destroy(collision.gameObject);
+
+            //do our bouncy stuff here
+            rb.velocity = Vector2.zero;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }    
     }
 
     //called on the frame you exit the trigger
