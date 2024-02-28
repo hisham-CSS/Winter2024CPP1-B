@@ -26,10 +26,10 @@ public class Collectible : MonoBehaviour
                     pc.StartJumpForceChange();
                     break;
                 case PickupType.Score:
-                    pc.score++;
+                    GameManager.Instance.score++;
                     break;
                 case PickupType.Life:
-                    pc.lives++;
+                    GameManager.Instance.lives++;
                     break;
             }
             Destroy(gameObject, timeToDestory);
