@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 [DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
@@ -14,6 +15,8 @@ public class GameManager : MonoBehaviour
     PlayerController playerInstance = null;
     Transform currentCheckpoint;
 
+    public UnityEvent<int> OnLifeValueChanged;
+
     //Lives and Score
     [SerializeField] int maxLives = 5;
     private int _lives;
@@ -22,17 +25,20 @@ public class GameManager : MonoBehaviour
         get => _lives;
         set
         {
-            if (lives > value)
+            if (_lives > value)
                 Respawn();
 
             _lives = value;
 
             //we've increased past our max lives so we should just be set to our max lives
-            if (lives > maxLives)
-                lives = maxLives;
+            if (_lives > maxLives)
+                _lives = maxLives;
 
-            if (lives < 0)
+            if (_lives < 0)
                 GameOver();
+
+            
+            OnLifeValueChanged?.Invoke(_lives);
 
             //if (TestMode) Debug.Log("Lives has been set to: " + _lives.ToString());
         }
@@ -82,6 +88,10 @@ public class GameManager : MonoBehaviour
         }    
     }
 
+    public void ChangeScene(int buildIndex)
+    {
+        SceneManager.LoadScene(buildIndex);
+    }
     public void SpawnPlayer(Transform spawnLocation)
     {
         playerInstance = Instantiate(playerPrefab, spawnLocation.position, spawnLocation.rotation);
