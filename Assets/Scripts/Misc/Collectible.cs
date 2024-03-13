@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
+    AudioSource audioSource;
     public enum PickupType
     {
         Powerup,
@@ -12,7 +13,12 @@ public class Collectible : MonoBehaviour
     }
 
     [SerializeField] PickupType currentCollectible;
-    [SerializeField] float timeToDestory = 0;
+    [SerializeField] AudioClip pickupSound;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -32,7 +38,9 @@ public class Collectible : MonoBehaviour
                     GameManager.Instance.lives++;
                     break;
             }
-            Destroy(gameObject, timeToDestory);
+            audioSource.PlayOneShot(pickupSound);
+            GetComponent<SpriteRenderer>().enabled = false;
+            Destroy(gameObject, pickupSound.length);
         }
     }
 }
